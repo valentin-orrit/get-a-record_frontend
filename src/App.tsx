@@ -1,8 +1,8 @@
-import "./App.css"
+import styles from "./App.module.scss"
 import axios from "axios"
 import { useState } from "react"
 import type { Artist } from "./types/types.ts"
-import ArtistCard from "./components/ArtistCard"
+import ArtistCard from "./components/ArtistCard/ArtistCard.tsx"
 
 function App() {
     const API_URL = import.meta.env.VITE_API_URL || "/api"
@@ -38,16 +38,18 @@ function App() {
     }
 
     return (
-        <>
+        <div className={styles.app}>
             <h1>Get a Record</h1>
-            <div className="card">
+            <div>
                 <button onClick={testRequest} disabled={loading}>
                     {loading ? "Loading..." : "get Artist"}
                 </button>
+            </div>
+            <div>
                 {!loading && requestData && <ArtistCard data={requestData} />}
                 {error && <p>{error}</p>}
             </div>
-        </>
+        </div>
     )
 }
 

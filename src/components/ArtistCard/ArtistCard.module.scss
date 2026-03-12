@@ -1,0 +1,9 @@
+@use "../../styles/mixins" as *;
+
+.artistCard {
+    @include flex-center;
+}
+
+.artistCardBio {
+    text-align: left;
+}
