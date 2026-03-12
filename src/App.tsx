@@ -1,14 +1,17 @@
 import "./App.css"
 import axios from "axios"
 import { useState } from "react"
+import type { Artist } from "./types/types.ts"
+import ArtistCard from "./components/ArtistCard"
 
 function App() {
     const API_URL = import.meta.env.VITE_API_URL || "/api"
 
     const [loading, setLoading] = useState<boolean>(false)
     const [error, setError] = useState<string | null>(null)
+    const [requestData, setRequestData] = useState<Artist | null>(null)
 
-    const testRequest = async (): Promise<JSON | void> => {
+    const testRequest = async (): Promise<void> => {
         setLoading(true)
         setError(null)
 
@@ -24,9 +27,8 @@ function App() {
                 timeout: 10000,
             })
             clearTimeout(timeoutId)
-            console.log(response)
             setLoading(false)
-            return response.data
+            setRequestData(response.data)
         } catch (error) {
             clearTimeout(timeoutId)
             setLoading(false)
@@ -40,8 +42,9 @@ function App() {
             <h1>Get a Record</h1>
             <div className="card">
                 <button onClick={testRequest} disabled={loading}>
-                    {loading ? "Loading..." : "test"}
+                    {loading ? "Loading..." : "get Artist"}
                 </button>
+                {!loading && requestData && <ArtistCard data={requestData} />}
                 {error && <p>{error}</p>}
             </div>
         </>
